@@ -1,0 +1,102 @@
+\chapter{Disk Operation}
+
+\section{Gotek Settings (FF.CFG)}
+
+The disk images tested with the Gotek were .hfe images created from published .65d disk images, with the OSIHFE (v1.4) utility.
+
+To make an HFE file of Hexdos disk images for use with the Gotek drive, include the \emph{-5} option on the OSIHFE command line.
+
+These are the settings that have been found to work for a system configured for single sided drives. Some of these settings are the default settings, however, they are shown here for completeness.
+
+\begin{verbatim}
+    interface = shugart
+    host = unspecified
+    pin02 = nc
+    pin34 = rdy
+    write-protect = no
+    max-cyl = 255
+    side-select-glitch-filter = 2
+    track-change = realtime
+    write-drain = instant
+    index-suppression = yes
+    head-settle-ms = 15 # also try 25 ms
+    motor-delay = 450
+    chgrst = step
+\end{verbatim}
+
+
+Note that the \emph{write-protect} setting within FF.CFG defaults to \emph{no}. A setting of \emph{no} means that Flash Floppy will respect the setting of the file's \emph{Read Only} attribute and, therefore, may still be read only. A setting of \emph{yes} will force readonly on start up but can be overridden by holding Gotek's eject button(s) for 2 seconds. See the Eject Menu: option in the FlashFloppy Wiki for more details. (https://github.com/keirf/flashfloppy/wiki/Initial-Setup).
+
+
+\section{Creating Physical Disks with Greaseweazle}
+
+The \.65d images are typically single sided, single density disks designed for 48tpi drives. When converting them to .hfe disk images (see above) they need to be represented as double sided disks with the .65d image on side 0 of the .hfe disk image.
+
+Using a 48tpi disk drive such as a Teac 55B set to DS0 with a straight cable, the following command can be used. Note that the disk is written as a low density (\emph{--densel L}) single sided disk. Note that some versions of Greaseweazle do not use the longform versions for low density (\emph{--densel L}), in this case, use the \emph{-dd} option instead.
+
+\begin{verbatim}
+    gw write --drive=0 --erase-empty --densel L 
+        --tracks="c=0-39:h=0:step=1" mydisk.hfe
+\end{verbatim}
+
+\section{Testing the 610 ACIA}
+
+This program will actually generate a square wave from the ACIA on the 610 board. Enter it using the Monitor and execute from \$4000:
+
+\begin{verbatim}
+    4000  A9 03     LDA #3
+    4002  8D 10 C0  STA $C010
+    4005  A9 15     LDA #$15
+    4007  8D 10 C0  STA $C010
+    400A  A2 55     LDX #$55
+    400C  AD 10 C0  LDA $C010
+    400F  29 02     AND #2
+    4011  F0 F9     BEQ $400C
+    4013  8E 11 C0  STX $C011
+    4016  D0 F4     BNE $400C
+\end{verbatim}
+
+\section{Testing Track Zero Loading}
+
+You can check if track 0 is in fact loading by going into the Monitor and entering .FC06G. That should cause track 0 to be loaded, and the CPU then return to the Monitor program. The first five bytes at \$2200, with either 65D or Pico-Dos, should be;
+
+\begin{verbatim}
+    A9 01 8D 5E 26.
+\end{verbatim}
+
+\section{Testing the Floppy Disk System}
+
+David Gesswein has created a floppy test program for 5.25 and 8 inch disks full details can be found at https://www.pdp8online.com/osi/osi-floppy-test.shtml.
+
+The program auto configures for serial and video systems. It can be used via serial on video based systems such as C1PMF that has a smaller display, which allows you to see complete diagnostic information. It can check RPM speed, disk interface signals, Read and Write ability and more.
+
+If the system, does not boot but passes the disk tests within the above mentioned floppy disk test program. It may be worth re-calibrating the D13 board by starting with the trimmer set a minimum value and repeatedly trying to boot the disk e.g. 'Break' followed by 'D' with slowly increasing values. If it boots, keep increasing the value until it no longer boots, then set the trimmer to halfway between the two positions.
+
+\section{Memory Test}
+
+Be aware that any RAM "issues" above 8k will prevent a disk from booting. No error is reported, just boot failure!
+
+A memory test can be performed using the following BASIC program.
+
+For example, to test a 610 board populated with 24K of RAM, enter a. start page of 32 and an end page of 95. This will test memory from 8192h to 5FFFh. 
+
+\begin{verbatim}
+    650 REM MEMORY TEST BY W.L. TAYLOR
+    660 PRINT " ******MEMORY TEST****** ":PRINT
+    665 PRINT " ENTER STARTING AND ENDING PAGE":PRINT
+    700 INPUT "STARTING PAGE ";P1
+    710 INPUT "ENDING PAGE ";P2
+    720 D=0
+    730 LET A=P1*256
+    740 LET B=P2*256
+    750 FOR C=A TO B
+    760 POKE C,D
+    770 E=PEEK (C)
+    780 IF E<>D THEN PRINT " BAD DATA BYTE AT";C
+    790 IF E<>D THEN END
+    800 NEXT C
+    810 D=D+1
+    820 IF D<256 THEN 750
+    830 IF D=256 THEN PRINT " NO BAD DATA DETECTED":PRINT
+    840 END
+\end{verbatim}

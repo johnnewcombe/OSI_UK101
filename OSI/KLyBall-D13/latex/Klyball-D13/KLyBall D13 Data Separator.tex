@@ -1,0 +1,36 @@
+\documentclass[a4paper,11pt]{book}
+\usepackage{import}
+\usepackage{nonfiction}
+\usepackage{makeidx}
+\makeindex
+
+\begin{document}
+
+\frontmatter
+\import{./}{title.tex}
+
+\clearpage
+\thispagestyle{empty}
+
+\tableofcontents
+\listoffigures
+
+\mainmatter
+
+%\import{chapters/}{_preface}
+\import{chapters/}{chapter1}
+\import{chapters/}{chapter2}
+\import{chapters/}{chapter3}
+\import{chapters/}{chapter4}
+%\import{chapters/}{examples}
+
+\backmatter
+% Add this section to the contents
+\addcontentsline{toc}{chapter}{APPENDICES}
+\import{chapters/}{appendixA}
+
+% blank page for user write notes
+\chapter*{Notes:}
+
+\end{document}
+

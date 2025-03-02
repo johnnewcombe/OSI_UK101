@@ -1,0 +1,23 @@
+\babel@toc {english}{}\relax 
+\contentsline {chapter}{\numberline {1}Introduction}{1}{}%
+\contentsline {chapter}{\numberline {2}Construction Notes}{3}{}%
+\contentsline {section}{\numberline {2.1}Components and Layout}{3}{}%
+\contentsline {section}{\numberline {2.2}Power Connection}{4}{}%
+\contentsline {chapter}{\numberline {3}Calibration and Configuration}{5}{}%
+\contentsline {section}{\numberline {3.1}OSI 610 Expansion Board}{5}{}%
+\contentsline {subsection}{\numberline {3.1.1}R18 TX CLOCK}{6}{}%
+\contentsline {subsection}{\numberline {3.1.2}R9 TX DATA}{6}{}%
+\contentsline {subsection}{\numberline {3.1.3}R10 RX CLOCK}{6}{}%
+\contentsline {subsection}{\numberline {3.1.4}R19 RX DATA}{6}{}%
+\contentsline {section}{\numberline {3.2}D13 Data Separator Board}{8}{}%
+\contentsline {section}{\numberline {3.3}Link Settings}{8}{}%
+\contentsline {section}{\numberline {3.4}Checking the board}{12}{}%
+\contentsline {chapter}{\numberline {4}Disk Operation}{15}{}%
+\contentsline {section}{\numberline {4.1}Gotek Settings (FF.CFG)}{15}{}%
+\contentsline {section}{\numberline {4.2}Using Greaseweazle to Create Physical Disks}{16}{}%
+\contentsline {section}{\numberline {4.3}Testing the 610 ACIA}{16}{}%
+\contentsline {section}{\numberline {4.4}Testing Track Zero Loading}{16}{}%
+\contentsline {section}{\numberline {4.5}Testing the Floppy Disk System}{17}{}%
+\contentsline {section}{\numberline {4.6}Memory Test}{17}{}%
+\contentsline {chapter}{APPENDICES}{19}{}%
+\contentsline {chapter}{Appendix A - Schematics}{19}{}%

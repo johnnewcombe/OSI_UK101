@@ -1,0 +1,43 @@
+\chapter{Calibration}
+
+\section{R17 TX Clock}
+
+With the input of the scope connected to U13, pin 3, adjust R17 for a full cycle width of 210uSec. See \textbf{Fig. \ref{fig:r17}}
+
+\begin{figure}[htbp]
+    \begin{center}
+    \includegraphics[width=4.9in]{images/R17.png}
+    \caption{Adjusting R17.}
+    \label{fig:r17}
+    \end{center}
+    \end{figure}
+
+\section{Tape Pulse Duration}
+
+Connect a jumper between Pins 10 and 11 of J2, Cold start Basic and enter...
+
+\begin{verbatim}
+    10 Print "U"
+    20 GOTO 10
+    SAVE
+    RUN
+\end{verbatim}
+
+With the input of scope connected to pin 5 of U22, adjust R75 for a positive pulse width of at least 500uSec, but not more that 640uSec. Disconnect the jumper.
+
+\section{Memory IC Allocation}
+
+The minimum amount of memory that can be used to start the 502 as a standalone machine at the monitor is 1K (0000--3FFF). The following list shows how each pair of memory chips are addressed.
+
+\begin{verbatim}
+    
+    U40-U49     0000-03FF
+    U39-U48     0400-07FF
+    U38-U47     0800-0BFF
+    U37-U46     OCOO-OFFF
+    U36-U45     1000-13FF
+    U35-U44     1400-17FF
+    U34-U43     1800-1BFF
+    U33-U42     1COO-1FFF
+
+\end{verbatim}
